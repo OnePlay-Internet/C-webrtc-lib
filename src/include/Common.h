@@ -246,11 +246,8 @@ extern "C" {
 #define ENABLE_FILE_LOGGING ((PCHAR) "AWS_ENABLE_FILE_LOGGING")
 /*!@} */
 
-#ifdef CMAKE_DETECTED_CACERT_PATH
-#define DEFAULT_KVS_CACERT_PATH KVS_CA_CERT_PATH
-#else
+// TODO
 #define DEFAULT_KVS_CACERT_PATH EMPTY_STRING
-#endif
 
 /////////////////////////////////////////////////////
 /// String constants
