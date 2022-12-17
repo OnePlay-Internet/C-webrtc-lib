@@ -1,6 +1,3 @@
-[submodule "open-source/amazon-kinesis-video-streams-pic"]
-	path = open-source/amazon-kinesis-video-streams-pic
-	url = https://github.com/awslabs/amazon-kinesis-video-streams-pic.git
-[submodule "open-source/amazon-kinesis-video-streams-producer-c"]
-	path = open-source/amazon-kinesis-video-streams-producer-c
-	url = https://github.com/awslabs/amazon-kinesis-video-streams-producer-c.git
+[submodule "third-party/openssl"]
+	path = third-party/openssl
+	url = https://github.com/openssl/openssl.git

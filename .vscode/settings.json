@@ -7,6 +7,7 @@
         "stats.h": "c",
         "commondefs.h": "c",
         "signaling.h": "c",
-        "include_i.h": "c"
+        "include_i.h": "c",
+        "libwebsockets.h": "c"
     }
 }

@@ -52,7 +52,7 @@ extern "C" {
 #define INET6 1
 #include <usrsctp.h>
 
-#include <libwebsockets.h>
+#include "libwebsockets.h"
 
 #if !defined __WINDOWS_BUILD__
 #include <signal.h>

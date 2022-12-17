@@ -1,18 +1,13 @@
 # build library from source
 function(build_dependency lib_name)
   set(supported_libs
-      gperftools
-      gtest
-      benchmark
+
       jsmn
+      mbedtls
       openssl
       srtp
       usrsctp
-      websockets
-      curl
-      mbedtls
-      kvspic
-      kvsCommonLws)
+      )
   list(FIND supported_libs ${lib_name} index)
   if(${index} EQUAL -1)
     message(WARNING "${lib_name} is not supported to build from source")

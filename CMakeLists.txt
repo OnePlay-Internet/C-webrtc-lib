@@ -194,11 +194,7 @@ else()
   endif()
 endif()
 
-if (WIN32)
-  SET(LIBWEBSOCKETS_LIBRARIES "websockets.lib")
-else()
-  pkg_check_modules(LIBWEBSOCKETS REQUIRED libwebsockets)
-endif()
+
 
 # usrsctp dont support pkgconfig yet
 find_library(
@@ -207,10 +203,9 @@ find_library(
   PATHS ${OPEN_SRC_INSTALL_PREFIX}/lib)
 
 set(OPEN_SRC_INCLUDE_DIRS ${OPEN_SRC_INCLUDE_DIRS} ${LIBSRTP_INCLUDE_DIRS}
-                          ${CURL_INCLUDE_DIRS} ${LIBWEBSOCKETS_INCLUDE_DIRS})
+                          ${CURL_INCLUDE_DIRS} )
 
 link_directories(${LIBSRTP_LIBRARY_DIRS})
-link_directories(${LIBWEBSOCKETS_LIBRARY_DIRS})
 link_directories(${OPEN_SRC_INSTALL_PREFIX}/lib)
 
 ############# find dependent libraries end ############
@@ -293,8 +288,7 @@ add_library(kvsWebrtcClient ${LINKAGE} ${WEBRTC_CLIENT_SOURCE_FILES})
 
 target_link_libraries(
   kvsWebrtcClient
-  PRIVATE kvspicUtils
-          kvspicState
+  PRIVATE 
           ${CMAKE_THREAD_LIBS_INIT}
           ${OPENSSL_SSL_LIBRARY}
           ${OPENSSL_CRYPTO_LIBRARY}
