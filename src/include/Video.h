@@ -10,18 +10,15 @@
 extern "C" {
 #endif
 
-#include <com/amazonaws/kinesis/video/common/CommonDefs.h>
-#include <com/amazonaws/kinesis/video/common/PlatformUtils.h>
 
 // IMPORTANT! Some of the headers are not tightly packed!
 ////////////////////////////////////////////////////
 // Public headers
 ////////////////////////////////////////////////////
-#include <com/amazonaws/kinesis/video/utils/Include.h>
-#include <com/amazonaws/kinesis/video/mkvgen/Include.h>
-#include <com/amazonaws/kinesis/video/view/Include.h>
-#include <com/amazonaws/kinesis/video/heap/Include.h>
-#include <com/amazonaws/kinesis/video/state/Include.h>
+#include "CommonDefs.h"
+#include "Utils.h"
+#include "Mkgen.h"
+
 
 /**
  * Device/Client state transitions
@@ -967,6 +964,18 @@ typedef enum {
     STREAM_EVENT_TYPE_LAST = (1 << 2),
 
 } STREAM_EVENT_TYPE;
+
+/*
+ * Determine how content view drop frames when overflow is detected
+ */
+typedef enum {
+    // drop single view item from the buffer
+    CONTENT_VIEW_OVERFLOW_POLICY_DROP_TAIL_VIEW_ITEM,
+
+    // drop entire fragment
+    CONTENT_VIEW_OVERFLOW_POLICY_DROP_UNTIL_FRAGMENT_START,
+} CONTENT_VIEW_OVERFLOW_POLICY;
+
 
 /**
  * Stream capabilities declaration

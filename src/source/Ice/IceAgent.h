@@ -178,6 +178,9 @@ typedef struct {
     RtcIceCandidatePairDiagnostics rtcIceCandidatePairDiagnostics;
 } IceCandidatePair, *PIceCandidatePair;
 
+
+
+
 struct __IceAgent {
     volatile ATOMIC_BOOL agentStartGathering;
     volatile ATOMIC_BOOL remoteCredentialReceived;
@@ -217,8 +220,10 @@ struct __IceAgent {
 
     // Current ice agent state
     UINT64 iceAgentState;
+
+    // TODO
     // The state machine
-    PStateMachine pStateMachine;
+    // PStateMachine pStateMachine;
     STATUS iceAgentStatus;
     UINT64 stateEndTime;
     UINT64 candidateGatheringEndTime;

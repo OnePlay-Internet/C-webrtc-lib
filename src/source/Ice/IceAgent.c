@@ -18,7 +18,8 @@ typedef enum {
     SDP_ICE_CANDIDATE_PARSER_STATE_OTHERS
 } SDP_ICE_CANDIDATE_PARSER_STATE;
 
-extern StateMachineState ICE_AGENT_STATE_MACHINE_STATES[];
+// TODO
+// extern StateMachineState ICE_AGENT_STATE_MACHINE_STATES[];
 extern UINT32 ICE_AGENT_STATE_MACHINE_STATE_COUNT;
 
 STATUS createIceAgent(PCHAR username, PCHAR password, PIceAgentCallbacks pIceAgentCallbacks, PRtcConfiguration pRtcConfiguration,
@@ -62,9 +63,10 @@ STATUS createIceAgent(PCHAR username, PCHAR password, PIceAgentCallbacks pIceAge
 
     pIceAgent->lock = MUTEX_CREATE(FALSE);
 
+    // TODO
     // Create the state machine
-    CHK_STATUS(createStateMachine(ICE_AGENT_STATE_MACHINE_STATES, ICE_AGENT_STATE_MACHINE_STATE_COUNT, (UINT64) pIceAgent, iceAgentGetCurrentTime,
-                                  (UINT64) pIceAgent, &pIceAgent->pStateMachine));
+    // CHK_STATUS(createStateMachine(ICE_AGENT_STATE_MACHINE_STATES, ICE_AGENT_STATE_MACHINE_STATE_COUNT, (UINT64) pIceAgent, iceAgentGetCurrentTime,
+    //                               (UINT64) pIceAgent, &pIceAgent->pStateMachine));
     pIceAgent->iceAgentStatus = STATUS_SUCCESS;
     pIceAgent->iceAgentStateTimerTask = MAX_UINT32;
     pIceAgent->keepAliveTimerTask = MAX_UINT32;
@@ -226,7 +228,7 @@ STATUS freeIceAgent(PIceAgent* ppIceAgent)
         MUTEX_FREE(pIceAgent->lock);
     }
 
-    freeStateMachine(pIceAgent->pStateMachine);
+
 
     if (pIceAgent->pBindingIndication != NULL) {
         freeStunPacket(&pIceAgent->pBindingIndication);
@@ -928,8 +930,9 @@ STATUS iceAgentRestart(PIceAgent pIceAgent, PCHAR localIceUfrag, PCHAR localIceP
     STRNCPY(pIceAgent->localUsername, localIceUfrag, MAX_ICE_CONFIG_USER_NAME_LEN);
     STRNCPY(pIceAgent->localPassword, localIcePwd, MAX_ICE_CONFIG_CREDENTIAL_LEN);
 
-    pIceAgent->iceAgentState = ICE_AGENT_STATE_NEW;
-    CHK_STATUS(setStateMachineCurrentState(pIceAgent->pStateMachine, ICE_AGENT_STATE_NEW));
+    // TODO
+    // pIceAgent->iceAgentState = ICE_AGENT_STATE_NEW;
+    // CHK_STATUS(setStateMachineCurrentState(pIceAgent->pStateMachine, ICE_AGENT_STATE_NEW));
 
     ATOMIC_STORE_BOOL(&pIceAgent->processStun, TRUE);
 

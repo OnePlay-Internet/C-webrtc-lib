@@ -15,7 +15,7 @@ option(BUILD_STATIC_LIBS "Build all libraries statically. (This includes third-p
 option(BUILD_OPENSSL_PLATFORM "If buildng OpenSSL what is the target platform" OFF)
 option(BUILD_LIBSRTP_HOST_PLATFORM "If buildng LibSRTP what is the current platform" OFF)
 option(BUILD_LIBSRTP_DESTINATION_PLATFORM "If buildng LibSRTP what is the destination platform" OFF)
-option(BUILD_SAMPLE "Build available samples" ON)
+option(BUILD_SAMPLE "Build available samples" OFF)
 option(ENABLE_DATA_CHANNEL "Enable support for data channel" ON)
 option(INSTRUMENTED_ALLOCATORS "Enable memory instrumentation" OFF)
 
@@ -305,22 +305,8 @@ target_link_libraries(
           ${GPERFTOOLS_PROFILER_LIBRARIES}
           ${EXTRA_DEPS})
 
-add_library(kvsWebrtcSignalingClient ${LINKAGE} ${WEBRTC_SIGNALING_CLIENT_SOURCE_FILES})
 
-target_link_libraries(
-  kvsWebrtcSignalingClient
-  PUBLIC
-        kvsCommonLws
-        ${LIBWEBSOCKETS_LIBRARIES} 
-  PRIVATE kvspicUtils
-         kvspicState
-         ${CMAKE_THREAD_LIBS_INIT}
-         ${EXTRA_DEPS}
-         ${OPENSSL_SSL_LIBRARY}
-         ${OPENSSL_CRYPTO_LIBRARY}
-         ${GPERFTOOLS_MALLOC_LIBRARIES}
-         ${GPERFTOOLS_PROFILER_LIBRARIES}
-         ${MBEDTLS_LIBRARIES})
+
 
 if (WIN32)
   target_link_libraries(kvsWebrtcClient PRIVATE "Ws2_32" "iphlpapi")
@@ -328,29 +314,15 @@ endif()
 
 if(COMPILER_WARNINGS)
   target_compile_options(kvsWebrtcClient PUBLIC -Wall -Werror -pedantic -Wextra -Wno-unknown-warning-option)
-  target_compile_options(kvsWebrtcSignalingClient PUBLIC -Wall -Werror -pedantic -Wextra -Wno-unknown-warning-option)
 endif()
 
-install(TARGETS kvsWebrtcClient kvsWebrtcSignalingClient
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-)
+
 
 install(DIRECTORY ${KINESIS_VIDEO_WEBRTC_CLIENT_SRC}/src/include/
   DESTINATION include
 )
 
-if (BUILD_SAMPLE)
-  # copy sample frames to build folder, in case developer runs sample program with command `samples/kvsWebrtcClientMaster` from `build` dir.
-  file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/samples/opusSampleFrames" DESTINATION .)
-  file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/samples/h264SampleFrames" DESTINATION .)
 
-  add_subdirectory(samples)
-endif()
-
-if(BUILD_TEST)
-  add_subdirectory(tst)
-endif()
 
 if(BUILD_BENCHMARK)
   add_subdirectory(bench)

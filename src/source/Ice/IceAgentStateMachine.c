@@ -4,30 +4,32 @@
 #define LOG_CLASS "IceAgentState"
 #include "../Include_i.h"
 
-/**
- * Static definitions of the states
- */
-StateMachineState ICE_AGENT_STATE_MACHINE_STATES[] = {
-    {ICE_AGENT_STATE_NEW, ICE_AGENT_STATE_NONE | ICE_AGENT_STATE_NEW, fromNewIceAgentState, executeNewIceAgentState, NULL,
-     INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
-    {ICE_AGENT_STATE_CHECK_CONNECTION, ICE_AGENT_STATE_NEW | ICE_AGENT_STATE_CHECK_CONNECTION, fromCheckConnectionIceAgentState,
-     executeCheckConnectionIceAgentState, NULL, INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
-    {ICE_AGENT_STATE_CONNECTED, ICE_AGENT_STATE_CHECK_CONNECTION | ICE_AGENT_STATE_CONNECTED, fromConnectedIceAgentState,
-     executeConnectedIceAgentState, NULL, INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
-    {ICE_AGENT_STATE_NOMINATING, ICE_AGENT_STATE_CONNECTED | ICE_AGENT_STATE_NOMINATING, fromNominatingIceAgentState, executeNominatingIceAgentState,
-     NULL, INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
-    {ICE_AGENT_STATE_READY, ICE_AGENT_STATE_CONNECTED | ICE_AGENT_STATE_NOMINATING | ICE_AGENT_STATE_READY | ICE_AGENT_STATE_DISCONNECTED,
-     fromReadyIceAgentState, executeReadyIceAgentState, NULL, INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
-    {ICE_AGENT_STATE_DISCONNECTED,
-     ICE_AGENT_STATE_CHECK_CONNECTION | ICE_AGENT_STATE_CONNECTED | ICE_AGENT_STATE_NOMINATING | ICE_AGENT_STATE_READY | ICE_AGENT_STATE_DISCONNECTED,
-     fromDisconnectedIceAgentState, executeDisconnectedIceAgentState, NULL, INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
-    {ICE_AGENT_STATE_FAILED,
-     ICE_AGENT_STATE_CHECK_CONNECTION | ICE_AGENT_STATE_CONNECTED | ICE_AGENT_STATE_NOMINATING | ICE_AGENT_STATE_READY |
-         ICE_AGENT_STATE_DISCONNECTED | ICE_AGENT_STATE_FAILED,
-     fromFailedIceAgentState, executeFailedIceAgentState, NULL, INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
-};
 
-UINT32 ICE_AGENT_STATE_MACHINE_STATE_COUNT = ARRAY_SIZE(ICE_AGENT_STATE_MACHINE_STATES);
+// TODO
+// /**
+//  * Static definitions of the states
+//  */
+// StateMachineState ICE_AGENT_STATE_MACHINE_STATES[] = {
+//     {ICE_AGENT_STATE_NEW, ICE_AGENT_STATE_NONE | ICE_AGENT_STATE_NEW, fromNewIceAgentState, executeNewIceAgentState, NULL,
+//      INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
+//     {ICE_AGENT_STATE_CHECK_CONNECTION, ICE_AGENT_STATE_NEW | ICE_AGENT_STATE_CHECK_CONNECTION, fromCheckConnectionIceAgentState,
+//      executeCheckConnectionIceAgentState, NULL, INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
+//     {ICE_AGENT_STATE_CONNECTED, ICE_AGENT_STATE_CHECK_CONNECTION | ICE_AGENT_STATE_CONNECTED, fromConnectedIceAgentState,
+//      executeConnectedIceAgentState, NULL, INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
+//     {ICE_AGENT_STATE_NOMINATING, ICE_AGENT_STATE_CONNECTED | ICE_AGENT_STATE_NOMINATING, fromNominatingIceAgentState, executeNominatingIceAgentState,
+//      NULL, INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
+//     {ICE_AGENT_STATE_READY, ICE_AGENT_STATE_CONNECTED | ICE_AGENT_STATE_NOMINATING | ICE_AGENT_STATE_READY | ICE_AGENT_STATE_DISCONNECTED,
+//      fromReadyIceAgentState, executeReadyIceAgentState, NULL, INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
+//     {ICE_AGENT_STATE_DISCONNECTED,
+//      ICE_AGENT_STATE_CHECK_CONNECTION | ICE_AGENT_STATE_CONNECTED | ICE_AGENT_STATE_NOMINATING | ICE_AGENT_STATE_READY | ICE_AGENT_STATE_DISCONNECTED,
+//      fromDisconnectedIceAgentState, executeDisconnectedIceAgentState, NULL, INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
+//     {ICE_AGENT_STATE_FAILED,
+//      ICE_AGENT_STATE_CHECK_CONNECTION | ICE_AGENT_STATE_CONNECTED | ICE_AGENT_STATE_NOMINATING | ICE_AGENT_STATE_READY |
+//          ICE_AGENT_STATE_DISCONNECTED | ICE_AGENT_STATE_FAILED,
+//      fromFailedIceAgentState, executeFailedIceAgentState, NULL, INFINITE_RETRY_COUNT_SENTINEL, STATUS_ICE_INVALID_STATE},
+// };
+
+// UINT32 ICE_AGENT_STATE_MACHINE_STATE_COUNT = ARRAY_SIZE(ICE_AGENT_STATE_MACHINE_STATES);
 
 STATUS stepIceAgentStateMachine(PIceAgent pIceAgent)
 {
@@ -39,12 +41,14 @@ STATUS stepIceAgentStateMachine(PIceAgent pIceAgent)
 
     oldState = pIceAgent->iceAgentState;
 
-    CHK_STATUS(stepStateMachine(pIceAgent->pStateMachine));
+    // TODO
+    // CHK_STATUS(stepStateMachine(pIceAgentV->pStateMachine));
 
+    // TODO
     // if any failure happened and state machine is not in failed state, stepStateMachine again into failed state.
-    if (pIceAgent->iceAgentState != ICE_AGENT_STATE_FAILED && STATUS_FAILED(pIceAgent->iceAgentStatus)) {
-        CHK_STATUS(stepStateMachine(pIceAgent->pStateMachine));
-    }
+    // if (pIceAgent->iceAgentState != ICE_AGENT_STATE_FAILED && STATUS_FAILED(pIceAgent->iceAgentStatus)) {
+    //     CHK_STATUS(stepStateMachine(pIceAgent->pStateMachine));
+    // }
 
     if (oldState != pIceAgent->iceAgentState) {
         if (pIceAgent->iceAgentCallbacks.connectionStateChangedFn != NULL) {
@@ -52,9 +56,11 @@ STATUS stepIceAgentStateMachine(PIceAgent pIceAgent)
             pIceAgent->iceAgentCallbacks.connectionStateChangedFn(pIceAgent->iceAgentCallbacks.customData, pIceAgent->iceAgentState);
         }
     } else {
+
+        // TODO
         // state machine retry is not used. resetStateMachineRetryCount just to avoid
         // state machine retry grace period overflow warning.
-        CHK_STATUS(resetStateMachineRetryCount(pIceAgent->pStateMachine));
+        // CHK_STATUS(resetStateMachineRetryCount(pIceAgent->pStateMachine));
     }
 
 CleanUp:
@@ -76,8 +82,9 @@ STATUS acceptIceAgentMachineState(PIceAgent pIceAgent, UINT64 state)
     MUTEX_LOCK(pIceAgent->lock);
     locked = TRUE;
 
+    // TODO
     // Step the state machine
-    CHK_STATUS(acceptStateMachineState(pIceAgent->pStateMachine, state));
+    // CHK_STATUS(acceptStateMachineState(pIceAgent->pStateMachine, state));
 
 CleanUp:
 
@@ -604,8 +611,9 @@ STATUS executeDisconnectedIceAgentState(UINT64 customData, UINT64 time)
         pIceAgent->iceAgentCallbacks.connectionStateChangedFn(pIceAgent->iceAgentCallbacks.customData, ICE_AGENT_STATE_DISCONNECTED);
     }
 
+    // TODO
     // step out of disconnection state to retry. Do not use stepIceAgentState machine because lock is not re-entrant.
-    CHK_STATUS(stepStateMachine(pIceAgent->pStateMachine));
+    // CHK_STATUS(stepStateMachine(pIceAgent->pStateMachine));
 
 CleanUp:
 

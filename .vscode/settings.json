@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        ".env": "properties",
+        "*.env": "ini",
+        "include.h": "c",
+        "nullabledefs.h": "c",
+        "stats.h": "c",
+        "commondefs.h": "c",
+        "signaling.h": "c",
+        "include_i.h": "c"
+    }
+}
