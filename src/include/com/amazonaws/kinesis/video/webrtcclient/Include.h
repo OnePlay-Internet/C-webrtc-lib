@@ -17,10 +17,12 @@ extern "C" {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 #endif
-#include <com/amazonaws/kinesis/video/client/Include.h>
-#include <com/amazonaws/kinesis/video/common/Include.h>
-#include <com/amazonaws/kinesis/video/webrtcclient/NullableDefs.h>
-#include <com/amazonaws/kinesis/video/webrtcclient/Stats.h>
+// #include <com/amazonaws/kinesis/video/client/Include.h>
+// #include <com/amazonaws/kinesis/video/common/Include.h>
+#include "CommonDefs.h"
+#include "NullableDefs.h"
+#include "Stats.h"
+#include "Video.h"
 #if defined(__clang__)
 #pragma clang diagnostic pop
 #endif
@@ -1869,19 +1871,6 @@ PUBLIC_API STATUS discoverNatBehavior(PCHAR, NAT_BEHAVIOR*, NAT_BEHAVIOR*, IceSe
  */
 PUBLIC_API PCHAR getNatBehaviorStr(NAT_BEHAVIOR natBehavior);
 
-/**
- * @brief Creates a Signaling client and returns a handle to it
- *
- * @param[in] PSignalingClientInfo Signaling client info
- * @param[in] PChannelInfo Signaling channel info to use/create a channel
- * @param[in] PSignalingClientCallbacks Signaling callbacks for event notifications
- * @param[in] PAwsCredentialProvider Credential provider for auth integration
- * @param[out] PSIGNALING_CLIENT_HANDLE Returned signaling client handle
- *
- * @return STATUS code of the execution. STATUS_SUCCESS on success
- */
-PUBLIC_API STATUS createSignalingClientSync(PSignalingClientInfo, PChannelInfo, PSignalingClientCallbacks, PAwsCredentialProvider,
-                                            PSIGNALING_CLIENT_HANDLE);
 
 /**
  * @brief Frees the Signaling client object
